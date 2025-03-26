@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Calculator Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: greenyellow; /* Yellow background */
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .calculator {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        input, select {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+            background-color: blue; /* Button blue color */
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkblue; /* Hover effect */
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Area Calculator Game</h1>
+    <div class="calculator">
+        <label for="shape">Select Shape:</label>
+        <select id="shape" onchange="showFields()">
+            <option value="">--Select--</option>
+            <option value="triangle">Triangle</option>
+            <option value="square">Square</option>
+        </select>
+
+        <div id="triangleFields" style="display:none;">
+            <input type="number" id="base" placeholder="Enter base of triangle">
+            <input type="number" id="height" placeholder="Enter height of triangle">
+        </div>
+
+        <div id="squareFields" style="display:none;">
+            <input type="number" id="side" placeholder="Enter side of square">
+        </div>
+
+        <button onclick="calculateArea()">Calculate Area</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function showFields() {
+            var shape = document.getElementById("shape").value;
+            document.getElementById("triangleFields").style.display = shape === "triangle" ? "block" : "none";
+            document.getElementById("squareFields").style.display = shape === "square" ? "block" : "none";
+            document.getElementById("result").innerText = "";
+        }
+
+        function calculateArea() {
+            var shape = document.getElementById("shape").value;
+            var result = document.getElementById("result");
+
+            if (shape === "triangle") {
+                var base = parseFloat(document.getElementById("base").value);
+                var height = parseFloat(document.getElementById("height").value);
+                if (!base || !height) {
+                    result.innerText = "Please enter both base and height.";
+                    return;
+                }
+                var area = 0.5 * base * height;
+                result.innerText = "Area of triangle: " + area.toFixed(2);
+            }
+            else if (shape === "square") {
+                var side = parseFloat(document.getElementById("side").value);
+                if (!side) {
+                    result.innerText = "Please enter side of square.";
+                    return;
+                }
+                var area = side * side;
+                result.innerText = "Area of square: " + area.toFixed(2);
+            }
+            else {
+                result.innerText = "Please select a shape.";
+            }
+        }
+    </script>
+
+</body>
+</html>
