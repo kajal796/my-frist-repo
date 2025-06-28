@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Match Game</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #colorName {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .color-options {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .color-box {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      border: 2px solid #444;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      background-color: #555;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎨 Color Match Game</h1>
+  <div id="colorName">Red</div>
+
+  <div class="color-options" id="optionsContainer">
+    <!-- Boxes will be generated here -->
+  </div>
+
+  <div id="result"></div>
+  <button onclick="startGame()">Try Again 🔁</button>
+
+  <script>
+    const colors = ["Red", "Green", "Blue", "Yellow", "Orange", "Purple"];
+    const colorCodes = {
+      Red: "#ff0000",
+      Green: "#00cc00",
+      Blue: "#0066ff",
+      Yellow: "#ffcc00",
+      Orange: "#ff6600",
+      Purple: "#9900cc"
+    };
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function startGame() {
+      const targetColor = colors[Math.floor(Math.random() * colors.length)];
+      document.getElementById("colorName").innerText = targetColor;
+
+      const shuffledColors = shuffle([...colors]);
+      const container = document.getElementById("optionsContainer");
+      container.innerHTML = "";
+
+      shuffledColors.slice(0, 5).forEach((color) => {
+        const box = document.createElement("div");
+        box.className = "color-box";
+        box.style.backgroundColor = colorCodes[color];
+        
+        // Random wrong name for confusion
+        const wrongNames = shuffle(colors.filter(c => c !== color));
+        box.innerText = wrongNames[0];
+
+        // Click event
+        box.addEventListener("click", () => {
+          if (color === targetColor) {
+            document.getElementById("result").innerText = "✅ बरोबर रंग!";
+          } else {
+            document.getElementById("result").innerText = "❌ चुकीचा रंग. पुन्हा प्रयत्न करा!";
+          }
+        });
+
+        container.appendChild(box);
+      });
+
+      document.getElementById("result").innerText = "";
+    }
+
+    // Start game on load
+    startGame();
+  </script>
+
+</body>
+</html>
